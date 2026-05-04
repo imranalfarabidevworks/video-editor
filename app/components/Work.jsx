@@ -84,7 +84,7 @@ export default function Work() {
              <span className="relative z-10">VIEW ALL SHOWREELS</span>
              {/* Dynamic background fill */}
              <div className="absolute inset-0 bg-gradient-to-r from-[#8B2BE2] to-[#4B0082] translate-y-full group-hover:translate-y-0 transition-transform duration-500" />
-             <span className="absolute inset-0 flex items-center justify-center text-white opacity-0 group-hover:opacity-100 transition-opacity duration-500 z-20">VIEW ALL SHOWREELS</span>
+             <span className="absolute inset-0 flex items-center justify-center text-white opacity-0 group-hover:opacity-100 transition-opacity duration-500 z-20">VIEW ALL Work</span>
           </Link>
         </div>
       </div>

@@ -1,34 +1,25 @@
 "use client";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Link from "next/link";
 import { motion } from "framer-motion";
 
 const CATEGORIES = ["All", "Cinematic", "Motion Graphics", "Color Grade", "Short Film"];
 
-// এই ডাটাগুলো কোডে থাকা জরুরি
 const allVideos = [
   { id: 1,  title: "Premium Production 1",  category: "Cinematic",       duration: "2:34", tag: "4K",    hue: 170 },
-  { id: 2,  title: "Premium Production 2",  category: "Motion Graphics",  duration: "0:58", tag: "Reel",  hue: 200 },
-  { id: 3,  title: "Premium Production 3",  category: "Color Grade",      duration: "4:11", tag: "Film",  hue: 230 },
-  { id: 4,  title: "Premium Production 4",  category: "Short Film",       duration: "1:47", tag: "BTS",   hue: 260 },
+  { id: 2,  title: "Premium Production 2",  category: "Motion Graphics",  duration: "0:58", tag: "Reel",   hue: 200 },
+  { id: 3,  title: "Premium Production 3",  category: "Color Grade",       duration: "4:11", tag: "Film",   hue: 230 },
+  { id: 4,  title: "Premium Production 4",  category: "Short Film",        duration: "1:47", tag: "BTS",    hue: 260 },
   { id: 5,  title: "Premium Production 5",  category: "Cinematic",       duration: "3:02", tag: "4K",    hue: 300 },
-  { id: 6,  title: "Premium Production 6",  category: "Motion Graphics",  duration: "1:23", tag: "Loop",  hue: 170 },
-  { id: 7,  title: "Premium Production 7",  category: "Color Grade",      duration: "5:15", tag: "Grade", hue: 200 },
-  { id: 8,  title: "Premium Production 8",  category: "Short Film",       duration: "0:44", tag: "Cuts",  hue: 230 },
+  { id: 6,  title: "Premium Production 6",  category: "Motion Graphics",  duration: "1:23", tag: "Loop",   hue: 170 },
+  { id: 7,  title: "Premium Production 7",  category: "Color Grade",       duration: "5:15", tag: "Grade",  hue: 200 },
+  { id: 8,  title: "Premium Production 8",  category: "Short Film",        duration: "0:44", tag: "Cuts",   hue: 230 },
   { id: 9,  title: "Premium Production 9",  category: "Cinematic",       duration: "2:58", tag: "4K",    hue: 260 },
-  { id: 10, title: "Premium Production 10", category: "Motion Graphics",  duration: "3:30", tag: "Reel",  hue: 300 },
-  { id: 11, title: "Premium Production 11", category: "Color Grade",      duration: "1:05", tag: "Edit",  hue: 170 },
-  { id: 12, title: "Premium Production 12", category: "Cinematic",       duration: "4:48", tag: "Film",  hue: 200 },
+  { id: 10, title: "Premium Production 10", category: "Motion Graphics",  duration: "3:30", tag: "Reel",   hue: 300 },
+  { id: 11, title: "Premium Production 11", category: "Color Grade",       duration: "1:05", tag: "Edit",   hue: 170 },
+  { id: 12, title: "Premium Production 12", category: "Cinematic",       duration: "4:48", tag: "Film",   hue: 200 },
 ];
 
-const stats = [
-  { num: "120+", label: "Projects Delivered" },
-  { num: "4M",   label: "Views Generated"    },
-  { num: "98%",  label: "Client Satisfaction" },
-  { num: "6",    label: "Years Experience"   },
-];
-
-// ভিডিও কার্ড কম্পোনেন্ট
 function VideoCard({ video, index }) {
   const [hovered, setHovered] = useState(false);
   const num = String(index + 1).padStart(2, "0");
@@ -69,20 +60,56 @@ function VideoCard({ video, index }) {
 
 export default function AllVideos() {
   const [active, setActive] = useState("All");
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   const filtered = active === "All"
     ? allVideos
     : allVideos.filter((v) => v.category === active);
 
+  if (!mounted) return null;
+
   return (
     <main style={{ minHeight: "100vh", background: "#080808", color: "#e8e8e8", padding: "2.5rem 1.5rem 5rem" }}>
-      <style>{`
+      <style dangerouslySetInnerHTML={{ __html: `
         @import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500&display=swap');
         .glow-text { text-shadow: 0 0 20px rgba(139, 43, 226, 0.3); }
-      `}</style>
+        .nav-btn:hover { border-color: #8B2BE2 !important; color: #fff !important; background: rgba(139, 43, 226, 0.1) !important; }
+      ` }} />
 
       <div style={{ maxWidth: 1200, margin: "0 auto" }}>
-        <Link href="/" style={{ fontSize: 10, textTransform: "uppercase", color: "rgba(255,255,255,0.38)", textDecoration: "none", marginBottom: "4rem", display: "block" }}>← Back to Home</Link>
+        
+        {/* Back to Home Button */}
+        <div style={{ marginBottom: "4rem" }}>
+          <Link href="/" style={{ textDecoration: "none" }}>
+            <motion.button
+              whileHover={{ x: -5 }}
+              whileTap={{ scale: 0.95 }}
+              className="nav-btn"
+              style={{
+                display: "flex",
+                alignItems: "center",
+                gap: "10px",
+                background: "rgba(255, 255, 255, 0.03)",
+                border: "1px solid rgba(255, 255, 255, 0.1)",
+                padding: "10px 22px",
+                borderRadius: "100px",
+                color: "rgba(255, 255, 255, 0.6)",
+                fontSize: "11px",
+                fontWeight: "600",
+                textTransform: "uppercase",
+                letterSpacing: "0.1em",
+                cursor: "pointer",
+                transition: "all 0.3s ease",
+              }}
+            >
+              <span style={{ fontSize: "16px" }}>←</span> Back to Home
+            </motion.button>
+          </Link>
+        </div>
 
         <div style={{ textAlign: "center", marginBottom: "5rem" }}>
           <motion.h1 
@@ -91,17 +118,34 @@ export default function AllVideos() {
             style={{ fontFamily: "'Bebas Neue', sans-serif", fontSize: "clamp(60px, 15vw, 120px)", color: "#fff", marginBottom: "1rem" }}
             className="glow-text"
           >
-            FULL <span style={{ color: "#8B2BE2" }}>PORTFOLIO</span>
+            All <span style={{ color: "#8B2BE2" }}>PORTFOLIO</span>
           </motion.h1>
           <p style={{ color: "rgba(255,255,255,0.45)", margin: "0 auto", maxWidth: "550px" }}>A curated selection of cinematic excellence.</p>
         </div>
 
-        <div style={{ display: "flex", gap: 10, justifyContent: "center", marginBottom: "4rem" }}>
+        {/* Filter Categories */}
+        <div style={{ display: "flex", gap: 10, justifyContent: "center", marginBottom: "4rem", flexWrap: "wrap" }}>
           {CATEGORIES.map((cat) => (
-            <button key={cat} onClick={() => setActive(cat)} style={{ padding: "8px 24px", borderRadius: 100, border: `1px solid ${active === cat ? "#8B2BE2" : "rgba(255,255,255,0.1)"}`, background: active === cat ? "#8B2BE2" : "transparent", color: "#fff", cursor: "pointer" }}>{cat}</button>
+            <button 
+              key={cat} 
+              onClick={() => setActive(cat)} 
+              style={{ 
+                padding: "8px 24px", 
+                borderRadius: 100, 
+                border: `1px solid ${active === cat ? "#8B2BE2" : "rgba(255,255,255,0.1)"}`, 
+                background: active === cat ? "#8B2BE2" : "transparent", 
+                color: "#fff", 
+                cursor: "pointer",
+                fontSize: "13px",
+                transition: "all 0.3s ease"
+              }}
+            >
+              {cat}
+            </button>
           ))}
         </div>
 
+        {/* Video Grid */}
         <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(300px, 1fr))", gap: "2rem" }}>
           {filtered.map((video, i) => (
             <VideoCard key={video.id} video={video} index={allVideos.indexOf(video)} />
