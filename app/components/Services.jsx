@@ -1,68 +1,106 @@
 "use client";
-import React, { useState, useEffect } from "react";
+import React from "react";
 import { motion } from "framer-motion";
-import { Video, Zap, Layers, Volume2, ArrowUpRight } from "lucide-react";
+import { 
+  Play, 
+  Palette, 
+  Volume2, 
+  Sparkles, 
+  Building2, 
+  Heart,
+  ArrowUpRight 
+} from "lucide-react";
 
-const ServiceCard = ({ title, desc, icon: Icon, index }) => (
-  <motion.div
-    initial={{ opacity: 0, y: 20 }}
-    whileInView={{ opacity: 1, y: 0 }}
-    viewport={{ once: true }}
-    transition={{ delay: index * 0.1 }}
-    className="relative group overflow-hidden rounded-[32px] bg-[#0c0c0c] p-[2px]"
-  >
-    {/* Always Spinning Border Beam */}
-    <div className="absolute inset-[-150%] bg-[conic-gradient(from_0deg,transparent_0,transparent_75%,#8B2BE2_100%)] animate-[spin_5s_linear_infinite]" />
-    
-    <div className="relative z-10 bg-[#0f0f0f] rounded-[30px] p-8 h-full flex flex-col justify-between group-hover:bg-[#0f0f0f]/80 transition-all duration-500">
-      <div>
-        <div className="w-14 h-14 rounded-2xl bg-[#8B2BE2]/10 flex items-center justify-center text-[#8B2BE2] mb-6 group-hover:scale-110 transition-transform duration-500">
-          <Icon size={28} />
-        </div>
-        <h3 className="font-['Bebas_Neue'] text-3xl text-white tracking-widest mb-4 group-hover:text-[#8B2BE2] transition-colors">
-          {title}
-        </h3>
-        <p className="text-white/40 text-sm leading-relaxed font-light">
-          {desc}
-        </p>
-      </div>
-      
-      <div className="mt-8 flex items-center gap-2 text-[#8B2BE2] opacity-0 group-hover:opacity-100 transition-all duration-500">
-        <span className="text-[10px] font-bold uppercase tracking-[0.2em]">Learn More</span>
-        <ArrowUpRight size={14} />
-      </div>
-    </div>
-  </motion.div>
-);
+const services = [
+  { title: "Short-Video Editing", desc: "Viral-ready reels and TikToks with high-retention cuts.", icon: Play, color: "#8B2BE2" },
+  { title: "Wedding Highlights", desc: "Emotional storytelling with cinematic transitions.", icon: Heart, color: "#EC4899" },
+  { title: "Corporate Ads", desc: "Professional promotional videos for brand growth.", icon: Building2, color: "#3B82F6" },
+  { title: "Motion Graphics", desc: "Dynamic animations and VFX for visual impact.", icon: Sparkles, color: "#F59E0B" },
+  { title: "Color Grading", desc: "Dramatic cinematic looks and color correction.", icon: Palette, color: "#10B981" },
+  { title: "Sound Design", desc: "Immersive audio mixing and professional SFX.", icon: Volume2, color: "#6366F1" },
+];
 
 export default function Services() {
-  const [isMounted, setIsMounted] = useState(false);
-  useEffect(() => setIsMounted(true), []);
-
-  const serviceList = [
-    { title: "CASH COW EDITING", desc: "High-retention editing for YouTube automation channels that keeps viewers hooked.", icon: Video },
-    { title: "VIRAL REELS", desc: "Fast-paced, high-energy edits for TikTok and IG Reels designed for the algorithm.", icon: Zap },
-    { title: "MOTION GRAPHICS", desc: "Advanced 2D/3D animations and dynamic typography to elevate your message.", icon: Layers },
-    { title: "SOUND DESIGN", desc: "Immersive SFX and cinematic audio mixing for a complete sensory experience.", icon: Volume2 },
-  ];
-
-  if (!isMounted) return null;
-
   return (
-    <section className="bg-[#05000a] py-24 relative overflow-hidden">
-      <div className="max-w-6xl mx-auto px-6 relative z-10">
-        <div className="text-center mb-20">
-          <h2 className="font-['Bebas_Neue'] text-7xl md:text-9xl text-white leading-none">
-            MY <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#8B2BE2] to-[#c084fc]">SERVICES</span>
+    <section id="services" className="py-32 bg-[#05000a] relative overflow-hidden font-['Outfit']">
+      
+      <div className="max-w-7xl mx-auto px-6 relative z-10">
+        
+        <div className="text-center mb-24">
+          <h2 className="font-['Bebas_Neue'] text-7xl md:text-9xl text-white tracking-tighter">
+            MY <span className="text-[#8B2BE2]">SERVICES</span>
           </h2>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-          {serviceList.map((service, i) => (
-            <ServiceCard key={i} {...service} index={i} />
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          {services.map((service, i) => (
+            <motion.div
+              key={i}
+              // --- এই অংশটি মাউস ছাড়াই সব সময় এনিমেট করবে ---
+              animate={{ 
+                y: [0, -15, 0], // উপরে-নিচে ভাসবে
+                rotateX: [0, 3, -3, 0], // সামনে-পেছনে কাত হবে
+                rotateY: [0, -3, 3, 0]  // ডানে-বামে ঘুরবে
+              }}
+              transition={{ 
+                duration: 5, // এক একটি লুপ ৫ সেকেন্ডের হবে
+                repeat: Infinity, // আজীবন চলতে থাকবে
+                ease: "easeInOut",
+                delay: i * 0.4 // একেকটা কার্ড একেক সময় শুরু হবে যাতে এলোমেলো এবং ন্যাচারাল লাগে
+              }}
+              className="group relative p-10 rounded-[45px] bg-[#0c0c0c] border border-white/5 hover:border-[#8B2BE2]/50 transition-all duration-500 shadow-2xl"
+              style={{ perspective: "1000px" }}
+            >
+              {/* Active Glow for constant feel */}
+              <div className="absolute inset-0 opacity-20 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none">
+                <div className="absolute -inset-[1px] bg-gradient-to-br from-[#8B2BE2]/30 to-transparent blur-xl rounded-[45px]" />
+              </div>
+
+              <div className="relative z-10">
+                {/* Floating Icon */}
+                <motion.div 
+                  animate={{ 
+                    scale: [1, 1.15, 1],
+                    rotate: [0, 10, -10, 0]
+                  }}
+                  transition={{ 
+                    duration: 4, 
+                    repeat: Infinity, 
+                    ease: "easeInOut",
+                    delay: i * 0.2 
+                  }}
+                  className="w-16 h-16 rounded-3xl flex items-center justify-center mb-10"
+                  style={{ 
+                    backgroundColor: `${service.color}15`, 
+                    color: service.color,
+                    boxShadow: `0 0 25px ${service.color}15` 
+                  }}
+                >
+                  <service.icon size={32} />
+                </motion.div>
+                
+                <h3 className="text-3xl font-bold text-white mb-4 group-hover:text-[#8B2BE2] transition-colors leading-tight">
+                  {service.title}
+                </h3>
+                
+                <p className="text-white/40 text-lg leading-relaxed group-hover:text-white/70 transition-colors">
+                  {service.desc}
+                </p>
+
+                <div className="mt-10 flex items-center justify-between opacity-60 group-hover:opacity-100 transition-opacity">
+                   <span className="text-[10px] font-black tracking-[0.4em] text-[#8B2BE2] uppercase">Active Service</span>
+                   <div className="w-10 h-10 rounded-full border border-[#8B2BE2]/30 flex items-center justify-center group-hover:bg-[#8B2BE2] group-hover:border-transparent transition-all">
+                      <ArrowUpRight className="text-white" size={18} />
+                   </div>
+                </div>
+              </div>
+            </motion.div>
           ))}
         </div>
       </div>
+
+      {/* Decorative background circle */}
+      <div className="absolute -bottom-20 -left-20 w-80 h-80 bg-[#8B2BE2]/10 blur-[120px] rounded-full pointer-events-none" />
     </section>
   );
 }

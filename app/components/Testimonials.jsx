@@ -3,17 +3,17 @@ import { useEffect, useRef } from "react";
 
 const reviews = [
   {
-    name: "Alex Rivera",
-    role: "YouTuber",
-    initials: "AR",
+    name: "Fahim Adnan",
+    role: "Owner of Buraq Oil",
+    initials: "FA",
     text: "Junaid is a magician! My retention rate went up by 40% after he started editing my videos. Absolutely mind-blowing results.",
     avatarColor: "rgba(139,43,226,0.1)",
     textColor: "#c084fc",
   },
   {
-    name: "Sarah Jenkins",
-    role: "Content Creator",
-    initials: "SJ",
+    name: "Masudur Rahman",
+    role: "Owner Of Muslim Child Acadamy",
+    initials: "MR",
     text: "The motion graphics and pacing are world-class. Best editor I've ever worked with — completely transformed my channel.",
     avatarColor: "rgba(168,85,247,0.1)",
     textColor: "#a855f7",

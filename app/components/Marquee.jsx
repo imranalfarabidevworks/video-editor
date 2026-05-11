@@ -9,7 +9,7 @@ export default function InfiniteMarquee() {
   }, []);
 
   const items = [
-    "CASH COW EDITING",
+    "CINEMATIC EDITING",
     "VIRAL REELS",
     "MOTION GRAPHICS",
     "CINEMATIC LOOK",

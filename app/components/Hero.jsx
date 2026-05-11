@@ -10,9 +10,10 @@ export default function Hero() {
     setMounted(true);
   }, []);
 
-  // বাটন ক্লিক ফাংশন - 'projects' আইডিতে নিয়ে যাবে
-  const handleScrollToWorks = () => {
-    const worksSection = document.getElementById("projects");
+  // ক্লিক ফাংশন - 'work' আইডিতে স্মুথলি স্ক্রল করবে
+  const handleScrollToWorks = (e) => {
+    e.preventDefault();
+    const worksSection = document.getElementById("work");
     if (worksSection) {
       worksSection.scrollIntoView({ behavior: "smooth" });
     }
@@ -26,8 +27,8 @@ export default function Hero() {
     const ctx = canvas.getContext("2d");
 
     const resize = () => {
-      canvas.width = canvas.offsetWidth;
-      canvas.height = canvas.offsetHeight;
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
     };
     resize();
     window.addEventListener("resize", resize);
@@ -158,34 +159,34 @@ export default function Hero() {
 
         .btn-primary {
           position: relative;
-          padding: 14px 40px;
+          padding: 18px 45px;
           background: transparent;
           border: none;
           cursor: pointer;
           font-family: 'Orbitron', sans-serif;
-          font-size: 10px;
+          font-size: 11px;
           font-weight: 700;
-          letter-spacing: 0.3em;
+          letter-spacing: 0.35em;
           color: #fff;
           text-transform: uppercase;
-          overflow: hidden;
           transition: all 0.3s;
-          z-index: 100;
+          z-index: 50; /* এটি নিশ্চিত করে বাটন ক্যানভাসের উপরে আছে */
         }
         .btn-primary::before {
           content: '';
           position: absolute;
           inset: 0;
           background: #8B2BE2;
-          clip-path: polygon(8px 0,100% 0,100% calc(100% - 8px),calc(100% - 8px) 100%,0 100%,0 8px);
+          clip-path: polygon(10px 0,100% 0,100% calc(100% - 10px),calc(100% - 10px) 100%,0 100%,0 10px);
           transition: all 0.4s;
           z-index: -1;
         }
         .btn-primary:hover::before {
           background: #a040ff;
-          box-shadow: 0 0 30px rgba(139,43,226,0.8);
+          box-shadow: 0 0 40px rgba(139,43,226,0.8);
+          transform: scale(1.05);
         }
-        .btn-primary span { position: relative; z-index: 1; pointer-events: none; }
+        .btn-primary:active { transform: scale(0.95); }
       `}</style>
 
       <section
@@ -203,10 +204,10 @@ export default function Hero() {
         />
 
         {/* Canvas Background */}
-        <canvas ref={canvasRef} className="absolute inset-0 w-full h-full" style={{ zIndex: 1 }} />
+        <canvas ref={canvasRef} className="absolute inset-0 w-full h-full pointer-events-none" style={{ zIndex: 1 }} />
 
         {/* Content Layer */}
-        <div className="relative text-center px-6 mt-12" style={{ zIndex: 10 }}>
+        <div className="relative text-center px-6 mt-12" style={{ zIndex: 20 }}>
           <div className="anim-label flex items-center justify-center gap-4 mb-6">
             <div style={{ width: 40, height: 1, background: "linear-gradient(90deg,transparent,#8B2BE2)" }} />
             <span style={{ fontFamily: "'Rajdhani',sans-serif", fontSize: 11, fontWeight: 700, letterSpacing: "0.5em", color: "#8B2BE2", textTransform: "uppercase" }}>
@@ -224,20 +225,23 @@ export default function Hero() {
             </div>
           </div>
 
-          <p className="anim-desc max-w-xl mx-auto mb-8" style={{ fontFamily: "'Rajdhani',sans-serif", fontSize: 15, color: "rgba(255,255,255,0.45)", lineHeight: 1.7 }}>
+          <p className="anim-desc max-w-xl mx-auto mb-10" style={{ fontFamily: "'Rajdhani',sans-serif", fontSize: 16, color: "rgba(255,255,255,0.45)", lineHeight: 1.7 }}>
             Crafting high-end cinematic experiences through advanced video editing,
             motion graphics & color grading. Elevating brands one frame at a time.
           </p>
 
           <div className="anim-btns">
-            <button className="btn-primary" onClick={handleScrollToWorks}>
+            <button 
+              className="btn-primary" 
+              onClick={handleScrollToWorks}
+            >
               <span>▶ Explore Works</span>
             </button>
           </div>
         </div>
 
         {/* Stats Section */}
-        <div className="anim-stats absolute flex gap-10" style={{ bottom: 28, left: "50%", transform: "translateX(-50%)", zIndex: 10 }}>
+        <div className="anim-stats absolute flex gap-10" style={{ bottom: 40, left: "50%", transform: "translateX(-50%)", zIndex: 20 }}>
           {[
             { id: "stat-projects", label: "Projects" },
             { id: "stat-clients", label: "Clients" },

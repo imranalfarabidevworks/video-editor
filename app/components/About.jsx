@@ -1,13 +1,13 @@
 "use client";
 import { useState, useEffect, useRef } from "react";
 import { motion, useInView } from "framer-motion";
-import { Play, Sparkles, Smartphone, Mic2 } from "lucide-react";
+import { Play, Sparkles, Video, Building2, Heart, Palette, Volume2 } from "lucide-react";
 
 // --- Stat Card with Count & Infinite Border ---
-const StatCard = ({ end, label, index }) => {
+const StatCard = ({ end, label }) => {
   const [count, setCount] = useState(0);
   const ref = useRef(null);
-  const isInView = useInView(ref, { amount: 0.3, margin: "0px" });
+  const isInView = useInView(ref, { amount: 0.3 });
 
   useEffect(() => {
     let start = 0;
@@ -24,18 +24,13 @@ const StatCard = ({ end, label, index }) => {
         }
       }, 16);
       return () => clearInterval(interval);
-    } else {
-      setCount(0); // সেকশনের বাইরে গেলে ০ হয়ে যাবে যাতে আবার আসলে কাউন্ট হয়
     }
   }, [isInView, end]);
 
   return (
     <div className="relative p-[2px] rounded-3xl overflow-hidden bg-[#0c0c0c]">
-      {/* 4-Side Infinite Rotating Border */}
       <div className="absolute inset-[-1000%] animate-[spin_4s_linear_infinite] bg-[conic-gradient(from_90deg_at_50%_50%,#8B2BE2_0%,transparent_50%,#8B2BE2_100%)]" />
-      
       <div ref={ref} className="relative bg-[#0c0c0c] p-8 rounded-[22px] text-center h-full z-10">
-        {/* Purple Count Color */}
         <h4 className="font-['Bebas_Neue'] text-5xl md:text-6xl text-[#8B2BE2] drop-shadow-[0_0_15px_rgba(139,43,226,0.6)]">
           {count}+
         </h4>
@@ -48,22 +43,29 @@ const StatCard = ({ end, label, index }) => {
 };
 
 // --- Skill Card with Rotating Border ---
-const SkillCard = ({ label, icon: Icon, index }) => (
-  <div className="relative p-[1.5px] rounded-2xl overflow-hidden">
+const SkillCard = ({ label, icon: Icon }) => (
+  <div className="relative p-[1.5px] rounded-2xl overflow-hidden group">
     <div className="absolute inset-[-1000%] animate-[spin_6s_linear_infinite] bg-[conic-gradient(from_90deg_at_50%_50%,#8B2BE2_0%,transparent_50%,#8B2BE2_100%)]" />
-    <div className="relative flex items-center gap-4 bg-[#0f0f0f] p-4 rounded-[14px] z-10">
-      <div className="text-[#8B2BE2]"><Icon size={18} /></div>
-      <span className="font-['Bebas_Neue'] text-xs tracking-widest text-white/80">{label}</span>
+    <div className="relative flex items-center gap-4 bg-[#0f0f0f] p-4 rounded-[14px] z-10 h-full">
+      <div className="text-[#8B2BE2] shrink-0"><Icon size={20} /></div>
+      <span className="font-['Outfit'] text-[13px] tracking-wide text-white/80 group-hover:text-white transition-colors uppercase font-semibold">
+        {label}
+      </span>
     </div>
   </div>
 );
 
 export default function About() {
+  const [mounted, setMounted] = useState(false);
+
+  // ৬টি স্কিল এখন এখানে
   const skills = [
-    { label: "Cash Cow Editing", icon: Play },
-    { label: "Viral Reels", icon: Smartphone },
-    { label: "Motion Graphics", icon: Sparkles },
-    { label: "Podcast Design", icon: Mic2 },
+    { label: "Short-Video Editing", icon: Play },
+    { label: "Wedding & Event Highlights", icon: Heart },
+    { label: "Corporate & Promotional Videos", icon: Building2 },
+    { label: "Motion Graphics & VFX", icon: Sparkles },
+    { label: "Color Grading & Restoration", icon: Palette },
+    { label: "Sound Design & Mixing", icon: Volume2 },
   ];
 
   const stats = [
@@ -72,6 +74,12 @@ export default function About() {
     { end: 5, label: "Years Exp" },
     { end: 10, label: "Awards Won" },
   ];
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  if (!mounted) return null;
 
   return (
     <section id="about" className="relative min-h-screen bg-[#05000a] py-24 font-['Outfit'] overflow-hidden">
@@ -84,10 +92,8 @@ export default function About() {
         </div>
 
         <div className="flex flex-col lg:flex-row items-center gap-20">
-          {/* Left: Image with Inner Mask Rise Animation */}
           <div className="relative p-[2px] rounded-[42px] overflow-hidden">
             <div className="absolute inset-[-1000%] animate-[spin_8s_linear_infinite] bg-[conic-gradient(from_90deg_at_50%_50%,#8B2BE2_0%,transparent_40%,#8B2BE2_100%)]" />
-            
             <div className="relative w-[280px] md:w-[350px] aspect-[4/5] rounded-[40px] bg-[#0c0c0c] overflow-hidden z-10">
                <motion.img 
                 initial={{ y: "100%" }}
@@ -101,7 +107,6 @@ export default function About() {
             </div>
           </div>
 
-          {/* Right: Info */}
           <div className="flex-1 space-y-10">
             <div className="space-y-6">
               <h3 className="font-['Bebas_Neue'] text-5xl text-white">
@@ -114,19 +119,18 @@ export default function About() {
               </p>
             </div>
 
-            {/* Skills Grid */}
+            {/* ৬টি স্কিল গ্রিড */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               {skills.map((skill, i) => (
-                <SkillCard key={i} {...skill} index={i} />
+                <SkillCard key={i} {...skill} />
               ))}
             </div>
           </div>
         </div>
 
-        {/* Stats Grid - Counting is FIXED here */}
         <div className="mt-32 grid grid-cols-2 lg:grid-cols-4 gap-6">
           {stats.map((stat, i) => (
-            <StatCard key={i} {...stat} index={i} />
+            <StatCard key={i} {...stat} />
           ))}
         </div>
       </div>
